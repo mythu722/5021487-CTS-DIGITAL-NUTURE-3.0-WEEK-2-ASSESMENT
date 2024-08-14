@@ -1,0 +1,9 @@
+BEGIN
+  FOR customer IN (SELECT CustomerID, DOB FROM Customers) LOOP
+    IF EXTRACT(YEAR FROM SYSDATE) - EXTRACT(YEAR FROM customer.DOB) > 60 THEN
+      UPDATE Loans
+      SET InterestRate = InterestRate - 1
+      WHERE CustomerID = customer.CustomerID;
+    END IF;
+  END LOOP;
+END;
